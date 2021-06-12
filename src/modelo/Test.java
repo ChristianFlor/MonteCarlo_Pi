@@ -6,10 +6,10 @@ public class Test implements Serializable {
 
 	private String id;
 	private int seed;
-	private int points;
+	private long points;
 
 	
-	public Test(String id, int seed, int points) {
+	public Test(String id, int seed, long points) {
 		super();
 		this.id = id;
 		this.seed = seed;
@@ -32,11 +32,11 @@ public class Test implements Serializable {
 		this.seed = seed;
 	}
 
-	public int getPoints() {
+	public long getPoints() {
 		return points;
 	}
 
-	public void setPoints(int points) {
+	public void setPoints(long points) {
 		this.points = points;
 	}
 

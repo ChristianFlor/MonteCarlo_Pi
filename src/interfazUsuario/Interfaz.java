@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 
 public class Interfaz extends JFrame {
 
-	private JLabel lblSeed, lblPoints, lblPi
+	private JLabel lblSeed, lblPoints, lblPi;
 
 	/**
 	 * Create the frame

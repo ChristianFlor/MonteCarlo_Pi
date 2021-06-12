@@ -11,7 +11,7 @@
 		</service>
 
 		<service name="servicioMC">
-			<interface.java interface="servicios.servicioMC" />
+			<interface.java interface="servicios.ServicioMC" />
 		</service>
 	</component>
 
@@ -20,7 +20,7 @@
 	</service>
 
 	<service name="servicioMC" promote="c/servicioMC">
-		<interface.java interface="servicios.servicioMC"></interface.java>
+		<interface.java interface="servicios.ServicioMC"></interface.java>
 		<frascati:binding.rmi host="localhost" serviceName="rmiService1" port="1090" />
 	</service>
 </composite>

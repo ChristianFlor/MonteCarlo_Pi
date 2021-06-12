@@ -5,23 +5,21 @@ import java.util.Random;
 public class CalculadorPi {
 
 	private final int semilla;
-	private final int puntosTotal;
+	private final long puntosTotal;
 
-	public CalculadorPi(int semilla, int puntosTotal) {
+	public CalculadorPi(int semilla, long puntosTotal) {
 		super();//TODO: Es necesario?
 		this.semilla = semilla;
 		this.puntosTotal = puntosTotal;
 	}
 	
-	public int calcularPuntosAdentro(){
-		int puntosAdentro = 0;
-
+	public long calcularPuntosAdentro(){
+		long puntosAdentro = 0;
 		Random rng = new Random(semilla);
-		float currentX = rng.nextFloat();
-		float currentY = rng.nextFloat();
-		float position = (currentX * currentX) + (currentY * currentY);
-
-		for (int i = 0; i < puntosTotal; i++) {
+		for (long i = 0; i < puntosTotal; i++) {
+			float currentX = rng.nextFloat();
+			float currentY = rng.nextFloat();
+			float position = (currentX * currentX) + (currentY * currentY);
 			if (position <= 1) {
 				puntosAdentro +=1;
 			}

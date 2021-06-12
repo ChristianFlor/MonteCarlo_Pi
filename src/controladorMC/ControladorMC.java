@@ -15,8 +15,9 @@ import interfazUsuario.Interfaz;
 
 @Scope("COMPOSITE")
 public class ControladorMC implements Runnable, ServicioMC{
-    @Reference
-	private ServicioMC servicioMC;
+
+   /* @Reference
+	private ServicioMC servicioMC;*/
 
     //@Reference
     private TestRepositorio test = TestRepositorio.getInstance();
@@ -29,8 +30,10 @@ public class ControladorMC implements Runnable, ServicioMC{
     private int codMaquina;
     private double suma;
 
-    public void run() {
+	public final static String COMA = ",";
 
+    public void run() {
+		System.out.println("Run");
 		try {
 			frame = new Interfaz();
 			frame.setLocationRelativeTo(null);
@@ -39,18 +42,16 @@ public class ControladorMC implements Runnable, ServicioMC{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		arrancarMaquina();
-		eventos();
+		lecturaPruebas();
+		initializeModel();
 	}
 
-	public void 
 
 	@Override
-	public double calcularPi(int seed, int points){
+	public double calcularPi(int seed, long points){
 		CalculadorPi calculador = new CalculadorPi(seed, points);
-		int puntosAdentro = calculador.calcularPuntosAdentro();
-		double pi = puntosAdentro/points;
+		long puntosAdentro = calculador.calcularPuntosAdentro();
+		double pi = puntosAdentro*4/points;
 		return pi;
 	}
 /*
@@ -62,18 +63,18 @@ public class ControladorMC implements Runnable, ServicioMC{
 
 	
     private void lecturaPruebas() {
-
+		System.out.println(System.getProperty("user.dir"));
 		FileInputStream fstream;
 		try {
-			String path = "../../data/test.txt";
+			String path = "MonteCarlo_Pi/data/test.txt";
 			File file = new File(path);
 			fstream = new FileInputStream(file);
 			DataInputStream entrada = new DataInputStream(fstream);
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(entrada));
 			String line = buffer.readLine();
-			while(!line.isEmpty()){
+			while(line!=null && !line.isEmpty()){
 				String nums[] = line.split("-");
-				int points = Integer.parseInt(nums[0]);
+				long points = Long.parseLong(nums[0]);
 				int seed = Integer.parseInt(nums[1]);
 				Test test =  new Test(nums[1], seed, points);
 				tests.add(test);
@@ -88,11 +89,12 @@ public class ControladorMC implements Runnable, ServicioMC{
 	}
 
 	public void escribirResultados(String output){
+		System.out.println("Escribiendo");
 		FileWriter fichero = null;
         PrintWriter pw = null;
         try
         {
-            fichero = new FileWriter("../../data/resultados.csv");
+            fichero = new FileWriter("MonteCarlo_Pi/data/resultados.csv");
             pw = new PrintWriter(fichero);
         	pw.println(output);
 
@@ -108,30 +110,36 @@ public class ControladorMC implements Runnable, ServicioMC{
               e2.printStackTrace();
            }
         }
+		System.out.println("Finish");
 	}
 
 	public void initializeModel(){
-		String encabezado = "Valor Pi;Tiempo de Ejecución\n";
+		
+		String encabezado = "Valor Pi"+COMA+"Tiempo de Ejecucion\n";
 		String output = "";
 		for(int i = 0; i < tests.size(); i++){
 			output += "Test "+(i+1)+"\n"+encabezado;
-			int totalPuntos = tests.get(i).getPoints();
+			long totalPuntos = tests.get(i).getPoints();
 			int seed = tests.get(i).getSeed();
 			long average = 0;
 			for(int j = 0; j<10; j++){
 				long timeNow = System.currentTimeMillis();
-				calcularPi(seed, totalPuntos);
+				double pi = calcularPi(seed, totalPuntos);
 				long timeAfter = System.currentTimeMillis();
 				long totalTime = timeAfter - timeNow;
 				
 				average += totalTime;
-				output += pi+";"+totalTime+"\n";
+				output += pi+COMA+totalTime+"\n";
 			}
 			average = average/10;
-			output += "Promedio;"+average+"\n";
-			output += "Nodos;1\n\n";
+			output += "Promedio"+COMA+average+"\n";
+			output += "Nodos"+COMA+"1\n\n";
 		}
 		escribirResultados(output);
+	}
+
+	public void showValues(){
+		
 	}
 
 }
