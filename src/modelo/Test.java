@@ -4,40 +4,40 @@ import java.io.Serializable;
 
 public class Test implements Serializable {
 
-	private String id;
-	private int seed;
-	private long points;
+    private String id;
+    private int seed;
+    private long points;
 
-	
-	public Test(String id, int seed, long points) {
-		super();
-		this.id = id;
-		this.seed = seed;
-		this.points = points;
-	}
 
-	public String getId() {
-		return id;
-	}
+    public Test(String id, int seed, long points) {
+        super();
+        this.id = id;
+        this.seed = seed;
+        this.points = points;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public int getSeed() {
-		return seed;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setSeed(int seed) {
-		this.seed = seed;
-	}
+    public int getSeed() {
+        return seed;
+    }
 
-	public long getPoints() {
-		return points;
-	}
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
 
-	public void setPoints(long points) {
-		this.points = points;
-	}
+    public long getPoints() {
+        return points;
+    }
+
+    public void setPoints(long points) {
+        this.points = points;
+    }
 
 }
