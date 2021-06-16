@@ -38,15 +38,15 @@ public class ControladorMC implements Runnable, ServicioMC {
     public void run() {
         System.out.println("Run");
         try {
-            JFrame frame = new JFrame("Simulacion Pi Montecarlo");
-            frame.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent evt) {
-                    System.exit(0);
-                }
-            });
-            frame.getContentPane().add(new Interfaz(), BorderLayout.CENTER);
-            frame.setSize(800, 600);
-            frame.setVisible(true);
+            // JFrame frame = new JFrame("Simulacion Pi Montecarlo");
+            // frame.addWindowListener(new WindowAdapter() {
+            //     public void windowClosing(WindowEvent evt) {
+            //         System.exit(0);
+            //     }
+            // });
+            // frame.getContentPane().add(new Interfaz(), BorderLayout.CENTER);
+            // frame.setSize(800, 600);
+            // frame.setVisible(true);
 //			frame = new Interfaz();
 //			frame.setLocationRelativeTo(null);
 //			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -63,7 +63,7 @@ public class ControladorMC implements Runnable, ServicioMC {
     public double calcularPi(int seed, long points) {
         CalculadorPi calculador = new CalculadorPi(seed, points);
         long puntosAdentro = calculador.calcularPuntosAdentro();
-        double pi = puntosAdentro * 4 / points;
+        double pi = 4 * (double) puntosAdentro / (double) points;
         return pi;
     }
 /*
@@ -75,7 +75,8 @@ public class ControladorMC implements Runnable, ServicioMC {
 
 
     private void lecturaPruebas() {
-        System.out.println(System.getProperty("user.dir"));
+        // System.out.println(System.getProperty("user.dir"));
+        System.out.println("Leyendo pruebas...");
         FileInputStream fstream;
         try {
             String path = "MonteCarlo_Pi/data/test.txt";
@@ -134,23 +135,25 @@ public class ControladorMC implements Runnable, ServicioMC {
             output += "Test " + (i + 1) + "\n" + encabezado;
             long totalPuntos = tests.get(i).getPoints();
             int seed = tests.get(i).getSeed();
-            frame.getTabla().setValueAt(("Test: " + (i + 1) + "-").split("-"), filaComienzoTestActual, 0);
-            frame.getTabla().setValueAt(("Semilla: " + seed + "-Num Puntos: " + totalPuntos).split("-"), filaComienzoTestActual + 1, 0);
+            // frame.getTabla().setValueAt(("Test: " + (i + 1) + "-").split("-"), filaComienzoTestActual, 0);
+            // frame.getTabla().setValueAt(("Semilla: " + seed + "-Num Puntos: " + totalPuntos).split("-"), filaComienzoTestActual + 1, 0);
             long average = 0;
+            System.out.println("Procesando prueba "+(i+1)+".");
             for (int j = 0; j < 10; j++) {
+                System.out.println("Ejecucion "+(j+1)+"...");
                 long timeNow = System.currentTimeMillis();
                 double pi = calcularPi(seed, totalPuntos);
                 long timeAfter = System.currentTimeMillis();
                 long totalTime = timeAfter - timeNow;
 
                 average += totalTime;
-                output += pi + COMA + totalTime + "\n";
-                frame.getTabla().setValueAt(("Pi: " + pi + "-Tiempo Ejec (ms): " + totalTime).split("-"), filaComienzoTestActual + 2 + j, 0);
+                output += pi + COMA + totalTime + "ms\n";
+                // frame.getTabla().setValueAt(("Pi: " + pi + "-Tiempo Ejec (ms): " + totalTime).split("-"), filaComienzoTestActual + 2 + j, 0);
             }
             average = average / 10;
-            output += "Promedio" + COMA + average + "\n";
+            output += "Promedio" + COMA + average + "ms\n";
             output += "Nodos" + COMA + "1\n\n";
-            frame.getTabla().setValueAt(("Tiempo promedio (ms): " + average + "-Nodos: 1").split("-"), filaComienzoTestActual + 12, 0);
+            // frame.getTabla().setValueAt(("Tiempo promedio (ms): " + average + "-Nodos: 1").split("-"), filaComienzoTestActual + 12, 0);
         }
         escribirResultados(output);
     }
